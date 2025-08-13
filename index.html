@@ -7,6 +7,13 @@
   table { border-collapse: collapse; width: 100%; text-align: center; }
   th, td { border: 1px solid #444; padding: 8px; }
   th { background-color: #eee; }
+  #animImage {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+  }
 </style>
 </head>
 <body>
@@ -44,7 +51,7 @@
     <td>子正</td>
     <td>甲木方/乙木方</td>
     <td>化 - 兪</td>
-    <td>正午~</td>
+    <td>정오~</td>
     <td>己土方</td>
     <td>化 - 兪( = 原)</td>
   </tr>
@@ -77,8 +84,27 @@
   </tr>
 </table>
 
-<h3>십간 입체방위도</h3>
-<!-- 이미지가 HTML과 같은 폴더에 있어야 함 -->
-<img src="십간_입체방위.png" alt="십간 입체방위도" style="display:block; max-width:100%; height:auto; border:1px solid #ccc;" onerror="this.insertAdjacentHTML('afterend','<p style=\'color:red\'>이미지를 불러올 수 없습니다. HTML과 같은 폴더에 십간_입체방위.png 파일이 있는지 확인하세요.</p>');">
+<h3>십간 입체방위도 애니메이션</h3>
+<img id="animImage" src="십간_입체방위 초승달.png" alt="십간 입체방위 애니메이션 이미지" onerror="this.insertAdjacentHTML('afterend','<p style=\'color:red\'>이미지를 불러올 수 없습니다. 파일명과 경로를 확인하세요.</p>');">
+
+<script>
+  const images = [
+    "십간_입체방위 초승달.png",
+    "십간_입체방위 상현달.png",
+    "십간_입체방위 보름달.png",
+    "십간_입체방위 보름달2.png",
+    "십간_입체방위 하현달.png",
+    "십간_입체방위 그믐달.png"
+  ];
+  let currentIndex = 0;
+
+  function changeImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    document.getElementById("animImage").src = images[currentIndex];
+  }
+
+  setInterval(changeImage, 5000); // 5초(5000ms)마다 이미지 변경
+</script>
+
 </body>
 </html>
