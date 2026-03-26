@@ -15,10 +15,8 @@
     height: auto;
     border: 1px solid #ccc;
     margin-top: 20px;
-    transition: opacity 0.5s ease-in-out;
   }
 
-  /* 강조 스타일 */
   .highlight {
     background-color: #ddd;
     font-weight: bold;
@@ -110,9 +108,7 @@
 
 <h3>십간 입체방위도 애니메이션</h3>
 
-<img id="animImage" 
-     src="십간_입체방위 초승달.png" 
-     alt="십간 입체방위 애니메이션 이미지">
+<img id="animImage" src="십간_입체방위 초승달.png">
 
 <script>
 
@@ -128,10 +124,18 @@ const images = [
 
 let currentIndex = 0;
 
-// 행 강조 함수
+/* ✅ 1. 이미지 미리 로딩 (끊김 해결 핵심) */
+const preloadedImages = [];
+
+images.forEach(src => {
+  const img = new Image();
+  img.src = src;
+  preloadedImages.push(img);
+});
+
+/* ✅ 2. 행 강조 */
 function highlightRow(index) {
   const rows = document.querySelectorAll(".phase-row");
-
   rows.forEach(row => row.classList.remove("highlight"));
 
   if (index === 2 || index === 3) {
@@ -143,25 +147,20 @@ function highlightRow(index) {
   }
 }
 
-// 이미지 변경 + 강조 동기화
+/* ✅ 3. 부드러운 이미지 변경 */
 function changeImage() {
+  currentIndex = (currentIndex + 1) % images.length;
+
   const img = document.getElementById("animImage");
+  img.src = preloadedImages[currentIndex].src;
 
-  img.style.opacity = 0;
-
-  setTimeout(() => {
-    currentIndex = (currentIndex + 1) % images.length;
-    img.src = images[currentIndex];
-    img.style.opacity = 1;
-
-    highlightRow(currentIndex);
-  }, 500);
+  highlightRow(currentIndex);
 }
 
-// 초기 상태
+/* 초기 상태 */
 highlightRow(0);
 
-// 5초마다 실행
+/* 실행 */
 setInterval(changeImage, 5000);
 
 </script>
