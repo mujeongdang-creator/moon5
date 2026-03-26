@@ -3,21 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <title>일월운행과 오수혈 표</title>
+
 <style>
   table { border-collapse: collapse; width: 100%; text-align: center; }
   th, td { border: 1px solid #444; padding: 8px; }
   th { background-color: #eee; }
+
   #animImage {
     display: block;
     max-width: 100%;
     height: auto;
     border: 1px solid #ccc;
     margin-top: 20px;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  /* 강조 스타일 */
+  .highlight {
+    background-color: #ddd;
+    font-weight: bold;
   }
 </style>
+
 </head>
 <body>
+
 <h2>일월운행과 오수혈의 관계</h2>
+
 <table>
   <tr>
     <th>달의 위상</th>
@@ -28,7 +40,8 @@
     <th>日方位(陰)</th>
     <th>變化</th>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row0">
     <td>초승달 ❍</td>
     <td>오후 3時경~</td>
     <td>庚金方</td>
@@ -37,7 +50,8 @@
     <td>乙木方</td>
     <td>生 - 井</td>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row1">
     <td>상현달 ◒</td>
     <td>오후 7時경~</td>
     <td>壬水方</td>
@@ -46,7 +60,8 @@
     <td>丁火方</td>
     <td>長 - 滎</td>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row2">
     <td>보름달 ●</td>
     <td>子正</td>
     <td>甲木方/乙木方</td>
@@ -55,7 +70,8 @@
     <td>己土方</td>
     <td>化 - 兪( = 原)</td>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row3">
     <td>하현달 ◓</td>
     <td>오전 5時경~</td>
     <td>丙火方</td>
@@ -64,7 +80,8 @@
     <td>辛金方</td>
     <td>收 - 經</td>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row4">
     <td>그믐달 ⌒</td>
     <td>오전 10時경~</td>
     <td>丁火方</td>
@@ -73,7 +90,8 @@
     <td>壬水方</td>
     <td>絡</td>
   </tr>
-  <tr>
+
+  <tr class="phase-row" id="row5">
     <td>삭달 ⊙</td>
     <td>하루종일</td>
     <td>戊土方</td>
@@ -91,32 +109,62 @@
 </p>
 
 <h3>십간 입체방위도 애니메이션</h3>
-<img id="animImage" src="십간_입체방위 초승달.png" alt="십간 입체방위 애니메이션 이미지" onerror="this.insertAdjacentHTML('afterend','<p style=\'color:red\'>이미지를 불러올 수 없습니다. 파일명과 경로를 확인하세요.</p>');">
+
+<img id="animImage" 
+     src="십간_입체방위 초승달.png" 
+     alt="십간 입체방위 애니메이션 이미지">
 
 <script>
-  const images = [
-    "십간_입체방위 초승달.png",
-    "십간_입체방위 상현달1.png",
-    "십간_입체방위 보름달.png",
-    "십간_입체방위 보름달2.png",
-    "십간_입체방위 하현달.png",
-    "십간_입체방위 그믐달.png",
-    "십간_입체방위 합삭달.png"
-  ];
-  let currentIndex = 0;
 
-  function changeImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    document.getElementById("animImage").src = images[currentIndex];
+const images = [
+  "십간_입체방위 초승달.png",
+  "십간_입체방위 상현달1.png",
+  "십간_입체방위 보름달.png",
+  "십간_입체방위 보름달2.png",
+  "십간_입체방위 하현달.png",
+  "십간_입체방위 그믐달.png",
+  "십간_입체방위 합삭달.png"
+];
+
+let currentIndex = 0;
+
+// 행 강조 함수
+function highlightRow(index) {
+  const rows = document.querySelectorAll(".phase-row");
+
+  rows.forEach(row => row.classList.remove("highlight"));
+
+  if (index === 2 || index === 3) {
+    document.getElementById("row2").classList.add("highlight");
+  } else if (index === 6) {
+    document.getElementById("row5").classList.add("highlight");
+  } else {
+    document.getElementById("row" + index).classList.add("highlight");
   }
+}
 
-  setInterval(changeImage, 5000); // 5초(5000ms)마다 이미지 변경
+// 이미지 변경 + 강조 동기화
+function changeImage() {
+  const img = document.getElementById("animImage");
+
+  img.style.opacity = 0;
+
+  setTimeout(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    img.src = images[currentIndex];
+    img.style.opacity = 1;
+
+    highlightRow(currentIndex);
+  }, 500);
+}
+
+// 초기 상태
+highlightRow(0);
+
+// 5초마다 실행
+setInterval(changeImage, 5000);
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
