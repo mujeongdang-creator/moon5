@@ -111,16 +111,17 @@
 <img id="animImage" src="십간_입체방위 초승달.png">
 
 <script>
-
-const images = [
-  "십간_입체방위 초승달.png",
-  "십간_입체방위 상현달1.png",
-  "십간_입체방위 보름달.png",
-  "십간_입체방위 보름달2.png",
-  "십간_입체방위 하현달.png",
-  "십간_입체방위 그믐달.png",
-  "십간_입체방위 합삭달.png"
-];
+  
+/* ✅ 이미지 index → 표 row 매핑 */  
+const indexToRowMap = {
+  0: 0, // 초승달
+  1: 1, // 상현달
+  2: 2, // 보름달
+  3: 2, // 보름달2
+  4: 3, // 하현달 ✅ 수정 핵심
+  5: 4, // 그믐달
+  6: 5  // 삭달
+};
 
 let currentIndex = 0;
 
@@ -138,15 +139,11 @@ function highlightRow(index) {
   const rows = document.querySelectorAll(".phase-row");
   rows.forEach(row => row.classList.remove("highlight"));
 
-  if (index === 2 || index === 3) {
-    document.getElementById("row2").classList.add("highlight");
-  } else if (index === 6) {
-    document.getElementById("row5").classList.add("highlight");
-  } else {
-    document.getElementById("row" + index).classList.add("highlight");
-  }
+  const rowIndex = indexToRowMap[index];
+  document.getElementById("row" + rowIndex).classList.add("highlight");
 }
 
+  
 /* ✅ 3. 부드러운 이미지 변경 */
 function changeImage() {
   currentIndex = (currentIndex + 1) % images.length;
